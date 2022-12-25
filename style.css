@@ -1,0 +1,191 @@
+* {
+	border: 0;
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+:root {
+	--hue: 223;
+	--bg: hsl(var(--hue),10%,90%);
+	--fg: hsl(var(--hue),10%,10%);
+	--transDur: 0.15s;
+	font-size: calc(16px + (24 - 16) * (100vw - 320px) / (1280 - 320));
+}
+body,
+button {
+	color: var(--fg);
+	font: 1em/1.5 "DM Sans", "Helvetica Neue", Helvetica, sans-serif;
+}
+body {
+	background-color: var(--bg);
+	height: 100vh;
+	display: grid;
+	place-items: center;
+	transition: background-color var(--transDur);
+}
+.notification {
+	padding-bottom: 0.75em;
+	position: fixed;
+	top: 1.5em;
+	right: 1.5em;
+	width: 18.75em;
+	max-width: calc(100% - 3em);
+	transition: transform 0.15s ease-out;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	user-select: none;
+}
+.notification__box,
+.notification__content,
+.notification__btns {
+	display: flex;
+}
+.notification__box,
+.notification__content {
+	align-items: center;
+}
+.notification__box {
+	animation: flyIn 0.3s ease-out;
+	background-color: hsl(0,0%,100%);
+	border-radius: 0.75em;
+	box-shadow: 0 0.5em 1em hsla(var(--hue),10%,10%,0.1);
+	height: 4em;
+	transition:
+		background-color var(--transDur),
+		color var(--transDur);
+}
+.notification--out .notification__box {
+	animation: flyOut 0.3s ease-out forwards;
+}
+.notification__content {
+	padding: 0.375em 1em;
+	width: 100%;
+	height: 100%;
+}
+.notification__icon {
+	flex-shrink: 0;
+	margin-right: 0.75em;
+	width: 2em;
+	height: 2em;
+}
+.notification__icon-svg {
+	width: 100%;
+	height: auto;
+}
+.notification__text {
+	line-height: 1.333;
+}
+.notification__text-title {
+	font-size: 0.75em;
+	font-weight: bold;
+}
+.notification__text-subtitle {
+	font-size: 0.6em;
+	opacity: 0.75;
+}
+.notification__btns {
+	box-shadow: -1px 0 0 hsla(var(--hue),10%,10%,0.15);
+	flex-direction: column;
+	flex-shrink: 0;
+	min-width: 4em;
+	height: 100%;
+	transition: box-shadow var(--transDur);
+}
+.notification__btn {
+	background-color: transparent;
+	box-shadow: 0 0 0 hsla(var(--hue),10%,10%,0.5) inset;
+	font-size: 0.6em;
+	line-height: 1;
+	font-weight: 500;
+	height: 100%;
+	padding: 0 0.5rem;
+	transition:
+		background-color var(--transDur),
+		color var(--transDur);
+	-webkit-appearance: none;
+	appearance: none;
+	-webkit-tap-highlight-color: transparent;
+}
+.notification__btn-text {
+	display: inline-block;
+	pointer-events: none;
+}
+.notification__btn:first-of-type {
+	border-radius: 0 0.75rem 0 0;
+}
+.notification__btn:last-of-type {
+	border-radius: 0 0 0.75rem 0;
+}
+.notification__btn:only-child {
+	border-radius: 0 0.75rem 0.75rem 0;
+}
+.notification__btn + .notification__btn {
+	box-shadow: 0 -1px 0 hsla(var(--hue),10%,10%,0.15);
+	font-weight: 400;
+}
+.notification__btn:active,
+.notification__btn:focus {
+	background-color: hsl(var(--hue),10%,95%);
+}
+.notification__btn:focus {
+	outline: transparent;
+}
+
+@supports selector(:focus-visible) {
+	.notification__btn:focus {
+		background-color: transparent;
+	}
+	.notification__btn:focus-visible,
+	.notification__btn:active {
+		background-color: hsl(var(--hue),10%,95%);
+	}
+}
+
+/* Dark theme */
+@media (prefers-color-scheme: dark) {
+	:root {
+		--bg: hsl(var(--hue),10%,10%);
+		--fg: hsl(var(--hue),10%,90%);
+	}
+	.notification__box {
+		background-color: hsl(var(--hue),10%,30%);
+	}
+	.notification__btns {
+		box-shadow: -1px 0 0 hsla(var(--hue),10%,90%,0.15);
+	}
+	.notification__btn + .notification__btn {
+		box-shadow: 0 -1px 0 hsla(var(--hue),10%,90%,0.15);
+	}
+	.notification__btn:active,
+	.notification__btn:focus {
+		background-color: hsl(var(--hue),10%,35%);
+	}
+
+	@supports selector(:focus-visible) {
+		.notification__btn:focus {
+			background-color: transparent;
+		}
+		.notification__btn:focus-visible,
+		.notification__btn:active {
+			background-color: hsl(var(--hue),10%,35%);
+		}
+	}
+}
+
+/* Animations */
+@keyframes flyIn {
+	from {
+		transform: translateX(calc(100% + 1.5em));
+	}
+	to {
+		transform: translateX(0);
+	}
+}
+@keyframes flyOut {
+	from {
+		transform: translateX(0);
+	}
+	to {
+		transform: translateX(calc(100% + 1.5em));
+	}
+}
